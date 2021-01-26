@@ -12,9 +12,11 @@ numWorkingDays=20;
 
 totalEmpHr=0;
 totalWorkingDays=0;
+workingHours=0;
 
 function getWorkingHours() {
-	case $1 in
+	local empCheck=$1
+	case $empCheck in
 		$isFullTime)
 			numOfWorkingHrs=8
 				;;
@@ -25,6 +27,18 @@ function getWorkingHours() {
 			numOfWorkingHrs=0
 				;;
 		esac
-		echo $numOfWorkinghrs
+
+		echo $numOfWorkingHrs
+
 }
 
+while [[ $totalEmpHr -lt $max_hrs_in_month &&
+        $totalWorkingDays -lt $numWorkingDays ]]
+do
+        ((totalWorkingDays++))
+        workingHours=$( getWorkingHours $((RANDOM%3)) );
+        (( totalEmpHr+=workingHours ))
+
+done
+salary=$(( totalEmpHr*empRatePerHr ))
+echo "salary per month is $salary"
